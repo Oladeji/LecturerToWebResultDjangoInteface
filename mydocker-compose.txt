@@ -29,3 +29,47 @@ services:
     depends_on:
       - db
       #- migration
+
+
+
+
+      version: "3.9"
+   
+services:    
+  web:
+    build: .
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python3 NewHonlecturerProject/manage.py makemigrations &&
+                    python3 NewHonlecturerProject/manage.py migrate  &&
+                    python3 NewHonlecturerProject/manage.py runserver 0.0.0.0:8084'
+    
+    #command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python3 NewHonlecturerProject/manage.py runserver 0.0.0.0:8084'
+    #command: python NewHonlecturerProject/manage.py runserver 0.0.0.0:8084
+    # command: sh -c "python NewHonlecturer/NewHonlecturerProject/manage.py makemigrations &&
+    #                python NewHonlecturer/NewHonlecturerProject/manage.py migrate  &&
+    #                python NewHonlecturer/NewHonlecturerProject/manage.py runserver 0.0.0.0:8084"
+    #command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python3 NewHonlecturerProject/manage.py runserver 0.0.0.0:8084'
+    #command: NewHonlecturerProject/gunicorn NewHonlecturerProject.wsgi.application - bind 0.0.0.0:8084
+    volumes:
+    - .:/code
+    ports:
+      - "8084:8084"
+  db:
+    image:  postgres:latest
+    volumes:
+      - NewHonlectpgdata:/var/lib/postgresql/data
+      - NewHonlectpgconf:/usr/local/etc/postgres/postgres.conf
+    restart: always
+    ports:
+    - "5438:5432"
+    environment:
+      - POSTGRES_DB=HonLecturerDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Ranti
+      #- POSTGRES_DB=${DBNAME}
+      #- POSTGRES_USER=${DBUSER}
+      #- POSTGRES_PASSWORD=${DBPASSWORD}
+      #- POSTGRES_HOST=db
+volumes: 
+  NewHonlectcode:
+  NewHonlectpgdata:
+  NewHonlectpgconf:

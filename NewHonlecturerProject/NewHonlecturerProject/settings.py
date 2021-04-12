@@ -56,7 +56,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # = True
 
 DEBUG = int(os.environ.get('DEBUG',default=1))
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.8.154','192.168.8.111','127.0.0.1']
+#ALLOWED_HOSTS = []
 #ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 if DEBUG:
     
@@ -207,7 +208,7 @@ SECRET_KEY = '49cp4$8uu23u1=81i@qil*ab18s$bw97x1!l&fb@h+v(583jtt'
 config ={
   "SECRET_KEY" : "03m64d61xpfh=jp9sdonalpx@*8@g-)z4)ajl3z*(s^_)s_euu",
   "BASE_URL" :  "http://192.168.8.111/WebResult.WebApi",
-  "BASE_URLFull_Time" :  "http://192.168.8.111:WebResult.WebApi",
+  "BASE_URLFull_Time" :  "http://192.168.8.111/WebResult.WebApi",
   "BASE_URLDPP" :  "http://192.168.20.8:50656",
   "BASE_URLCEC" :  "http://192.168.20.8:50657",
   "CIPHER_PASS": "Deji1@Poly",
