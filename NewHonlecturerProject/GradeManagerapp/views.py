@@ -30,7 +30,7 @@ def login_view(request):
     print(request.POST['serverprogtypeApi'])
    
     settings.BASE_URL=settings.CIPHER["BASE_URL"+request.POST['serverprogtypeApi']]
-
+    print(settings.BASE_URL)
     #print(request.POST['serverprogtypeApi'].value)
     form = UserLoginForm(request.POST) 
     if form.is_valid():
@@ -149,7 +149,7 @@ def displayCourse_view(request):
         step='normal'
 
         params = {'includescore':includescore,'longerreporttype':crsid,'orderbymatricno':orderbymatricno,'reportname':reportname,'step':step,'year':year,'month':month,'day':day}
-        api=api=settings.BASE_URL+'/api/Student/PythonPullForscoreEntryUsingCrsGuid'
+        api=settings.BASE_URL+'/api/Student/PythonPullForscoreEntryUsingCrsGuid'
        
         print(api)
         try:

@@ -40,7 +40,19 @@ from django.contrib.messages import constants as messages
 
 
 #import urllib.parse as up
-import psycopg2
+#import psycopg2
+import environ
+
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
+environ.Env.read_env()
+
+# False if not in os.environ
+DEBUG = env('DEBUG')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -55,7 +67,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 # = True
 
-DEBUG = int(os.environ.get('DEBUG',default=1))
+#DEBUG = int(os.environ.get('DEBUG',default=1))
 ALLOWED_HOSTS = ['192.168.8.154','192.168.8.111','127.0.0.1']
 #ALLOWED_HOSTS = []
 #ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
@@ -64,8 +76,8 @@ if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST ='smtp.gmail.com'# 'smtp.yourserver.com'
     EMAIL_PORT = '587'
-    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+    EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
     EMAIL_USE_TLS = True
     #EMAIL_USE_SSL = False
 # Application definition
@@ -113,27 +125,28 @@ WSGI_APPLICATION = 'NewHonlecturerProject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-print(os.environ.get("DBNAME"))
-print(os.environ.get("DBUSER"))
-print(os.environ.get("DBHOST"))
-print(os.environ.get("DBPASSWORD"))
-print(os.environ.get("DBPORT"))
+print(env("DBNAME"))
+print(env("DBUSER"))
+print(env("DBHOST"))
+print(env("DBPASSWORD"))
+print(env("DBPORT"))
+
 DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': BASE_DIR / 'db.sqlite3',
         #  'ENGINE': 'django.db.backends.postgresql',
-        #  'NAME': os.environ.get("DBNAME"),
-        #  'USER': os.environ.get("DBUSER"),
-        #  'PASSWORD': os.environ.get("DBPASSWORD"),
-        #  'HOST': os.environ.get("DBHOST"),
-        #  'PORT': os.environ.get("DBPORT"),
+         'NAME':env("DBNAME"),
+         'USER':env("DBUSER"),
+         'PASSWORD': env("DBPASSWORD"),
+         'HOST': env("DBHOST"),
+         'PORT': env("DBPORT"),
          'ENGINE':'django.db.backends.postgresql',
-         'NAME':'HonLecturerDB',
-         'USER':'postgres',
-         'PASSWORD':'Ranti',
-         'HOST':'db',
-         'PORT':'5432',
+         #'NAME':'HonLecturerDB',
+         #'USER':'postgres',
+         #'PASSWORD':'Ranti',
+         #'HOST':'db',
+         #'PORT':'5432',
 
     }
 }
@@ -192,37 +205,41 @@ MESSAGE_TAGS = {
     messages.ERROR:'alert-danger',
 
 }
-BASE_URL = os.environ.get("BASE_URL")
-CIPHER_PASS=os.environ.get("CIPHER_PASS")
-WORKSHEET_PASS =os.environ.get("WORKSHEET_PASS")
+BASE_URL = env("BASE_URL")
+CIPHER_PASS=env("CIPHER_PASS")
+WORKSHEET_PASS =env("WORKSHEET_PASS")
 
 
-WORKBOOKHASHED_PASSWORD=os.environ.get("WORKBOOKHASHED_PASSWORD")
+WORKBOOKHASHED_PASSWORD=env("WORKBOOKHASHED_PASSWORD")
 AUTHENTICATION_BACKENDS = ['GradeManagerapp.EmailBackend.EmailBackend']
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL='login_view'
 #SECRET_KEY=config["SECRET_KEY"]
 # real key for newhonorablelecturer SECRET_KEY = '49cp4$8uu23u1=81i@qil*ab18s$bw97x1!l&fb@h+v(583jtt'
-SECRET_KEY = '49cp4$8uu23u1=81i@qil*ab18s$bw97x1!l&fb@h+v(583jtt'
 
+SECRET_KEY = env('SECRET_KEY')
 config ={
-  "SECRET_KEY" : "03m64d61xpfh=jp9sdonalpx@*8@g-)z4)ajl3z*(s^_)s_euu",
-  "BASE_URL" :  "http://192.168.8.111/WebResult.WebApi",
-  "BASE_URLFull_Time" :  "http://192.168.8.111/WebResult.WebApi",
-  "BASE_URLDPP" :  "http://192.168.20.8:50656",
-  "BASE_URLCEC" :  "http://192.168.20.8:50657",
-  "CIPHER_PASS": "Deji1@Poly",
-  "WORKSHEET_PASS":"Deji1@Poly",
-  "WORKBOOKHASHED_PASSWORD":"Akoms1@Poly",
-  "DBNAME": "HonLecturerDB",
-  "DBUSER": "postgres",
-  "DBPASSWORD": "Ranti",
-  "DBPASSWORDcidm": "Kenny1",
-  "DBHOST": "127.0.0.1",
-  "DBHOSTcidn": "192.168.20.62",
-  "DBPORT": "5432",
-  "EMAIL_HOST_USER" : "Akomspatrick@gmail.com",
-  "EMAIL_HOST_PASSWORD" :"Deji75@Akoms"
+#   "SECRET_KEY" : "03m64d61xpfh=jp9sdonalpx@*8@g-)z4)ajl3z*(s^_)s_euu",
+#   "BASE_URL" :  "http://192.168.8.111/WebResult.WebApi",
+#   "BASE_URLFull_Time" :  "http://192.168.8.111/WebResult.WebApi",
+#   "BASE_URLDPP" :  "http://192.168.20.8:50656",
+#   "BASE_URLCEC" :  "http://192.168.20.8:50657",
+    "BASE_URL" :env('BASE_URL'),
+    "BASE_URLFull_Time" :env('BASE_URLFull_Time'),#  "http://192.168.8.111/WebResult.WebApi",
+    "BASE_URLDPP" : env('BASE_URLDPP'),# "http://192.168.20.8:50656",
+    "BASE_URLCEC" : env('BASE_URLCEC'),# "http://192.168.20.8:50657",
+#   "CIPHER_PASS": "Deji1@Poly",
+#   "WORKSHEET_PASS":"Deji1@Poly",
+#   "WORKBOOKHASHED_PASSWORD":"Akoms1@Poly",
+#   "DBNAME": "HonLecturerDB",
+#   "DBUSER": "postgres",
+#   "DBPASSWORD": "Ranti",
+#   "DBPASSWORDcidm": "Kenny1",
+#   "DBHOST": "127.0.0.1",
+#   "DBHOSTcidn": "192.168.20.62",
+#   "DBPORT": "5432",
+#   "EMAIL_HOST_USER" : "Akomspatrick@gmail.com",
+#   "EMAIL_HOST_PASSWORD" :"Deji75@Akoms"
 
 }
 
