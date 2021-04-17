@@ -5,9 +5,11 @@ services:
     build: .
     restart: unless-stopped
     command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python3 NewHonlecturerProject/manage.py makemigrations &&
-                    python3 NewHonlecturerProject/manage.py migrate  &&
-                    python3 NewHonlecturerProject/manage.py runserver 0.0.0.0:8084'
-    
+                    python3 NewHonlecturerProject/manage.py migrate' &&
+                    python3 NewHonlecturerProject/manage.py collectstatic --noinput'                     #/usr/local/bin/gunicorn NewHonlecturerProject.wsgi:application --bind  0.0.0.0:8000'
+    command: gunicorn -w 2 -b 0.0.0.0:8084 --chdir /code/NewHonlecturerProject NewHonlecturerProject.wsgi
+                    #python3 NewHonlecturerProject/manage.py runserver 0.0.0.0:8084'
+    #command: bash -c "PYTHONPATH=$$PWD/..gunicorn --bind 0.0.0.0:8000 NewHonlecturerProject.wsgi:application"
     #command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python3 NewHonlecturerProject/manage.py runserver 0.0.0.0:8084'
     #command: python NewHonlecturerProject/manage.py runserver 0.0.0.0:8084
     # command: sh -c "python NewHonlecturer/NewHonlecturerProject/manage.py makemigrations &&
@@ -18,6 +20,8 @@ services:
     volumes:
       - .:/code
     #- ./NewHonlecturerProject:/code
+    # environment:
+    #   PYTHONPATH: PYTHONPATH=$$PWD/..
     ports:
       - "8084:8084"
   db:

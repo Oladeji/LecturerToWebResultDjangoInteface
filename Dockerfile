@@ -6,4 +6,4 @@ COPY requirements.txt /code/
 
 RUN pip3 install -r requirements.txt
 
-COPY ./NewHonlecturerProject/  /code
+COPY ./NewHonlecturerProject  /code

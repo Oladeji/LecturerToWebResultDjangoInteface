@@ -12,6 +12,7 @@ openpyxl = "*"
 pycryptodomex = "*"
 gunicorn = "*"
 django-environ = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.9"

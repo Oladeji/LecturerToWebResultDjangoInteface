@@ -37,13 +37,13 @@ import json
 from pathlib import Path
 from django.contrib.messages import constants as messages
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-
+from django.core.wsgi import get_wsgi_application
 
 #import urllib.parse as up
 #import psycopg2
 import environ
 
-
+#application = get_wsgi_application()
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -83,7 +83,9 @@ if DEBUG:
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'GradeManagerapp.apps.GrademanagerappConfig',
+    #'GradeManagerapp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -100,6 +102,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+#    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'NewHonlecturerProject.urls'
@@ -190,8 +193,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
 print (BASE_DIR)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
