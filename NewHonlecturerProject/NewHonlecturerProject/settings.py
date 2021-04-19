@@ -53,6 +53,9 @@ environ.Env.read_env()
 
 # False if not in os.environ
 DEBUG = env('DEBUG')
+print(DEBUG)
+print('DEBUG HAS BEEN PRINTED NOW......................')
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -102,7 +105,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-#    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'NewHonlecturerProject.urls'
@@ -128,11 +131,11 @@ WSGI_APPLICATION = 'NewHonlecturerProject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-print(env("DBNAME"))
-print(env("DBUSER"))
-print(env("DBHOST"))
-print(env("DBPASSWORD"))
-print(env("DBPORT"))
+# print(env("DBNAME"))
+# print(env("DBUSER"))
+# print(env("DBHOST"))
+# print(env("DBPASSWORD"))
+# print(env("DBPORT"))
 
 DATABASES = {
     'default': {
@@ -196,11 +199,12 @@ STATIC_URL = '/static/'
 
 print (BASE_DIR)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = '/code/static'
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 MESSAGE_TAGS = {
     messages.DEBUG:'alert-info',
