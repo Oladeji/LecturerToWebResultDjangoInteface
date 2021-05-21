@@ -77,7 +77,6 @@ ALLOWED_HOSTS = ['192.168.8.154','192.168.8.111','127.0.0.1']
 if DEBUG:
     
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST ='smtp.gmail.com'# 'smtp.yourserver.com'
     EMAIL_PORT = '587'
     EMAIL_HOST_USER = env("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
@@ -86,7 +85,7 @@ if DEBUG:
 # Application definition
 
 INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic',
+    #'whitenoise.runserver_nostatic',
     'GradeManagerapp.apps.GrademanagerappConfig',
     #'GradeManagerapp',
     'django.contrib.admin',
@@ -199,12 +198,16 @@ STATIC_URL = '/static/'
 
 print (BASE_DIR)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_ROOT = '/code/static'
+# this gives error (staticfiles.E002) The STATICFILES_DIRS setting should not contain the STATIC_ROOT sSTATIC_ROOT = os.path.join(BASE_DIR, '/code/static')
+#STATIC_ROOT = '/code/static'
+print ('STATIC_ROOT below')
+print (STATIC_ROOT)
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Extra places for collectstatic to find static files.
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
+# below is only 
+STATICFILES_DIRS = (     os.path.join(BASE_DIR, 'static'),)
+print ('STATICFILES_DIRS below')
+print (STATICFILES_DIRS)
 
 MESSAGE_TAGS = {
     messages.DEBUG:'alert-info',
