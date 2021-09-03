@@ -1,4 +1,5 @@
 from django.shortcuts import render ,redirect
+from requests.exceptions import MissingSchema
 from .forms import UserLoginForm 
 from django.contrib import messages
 from django.http import HttpResponse ,HttpResponseNotFound 
@@ -27,8 +28,9 @@ def landing(request) :
 def login_view(request):
   next = request.GET.get('next')
   if request.method == 'POST':
+    print("URL  IN USE")
     print(request.POST['serverprogtypeApi'])
-   
+    print("BASE_URL"+request.POST['serverprogtypeApi'])
     settings.BASE_URL=settings.CIPHER["BASE_URL"+request.POST['serverprogtypeApi']]
     print(settings.BASE_URL)
     #print(request.POST['serverprogtypeApi'].value)
@@ -94,25 +96,27 @@ def processcourses_view(request):
           messages.success(request, str (len(courselist))+ " Course(s) Successfully Loaded")
 
     except requests.exceptions.HTTPError as errh:
-         messages.error (request,"Problem Loading Courses :=> "+errh.response.text)
+         messages.error (request,"Problem Loading Courses/HTTPError :=> "+errh.response.text)
     except requests.exceptions.ConnectionError as errc:
-         messages.error (request,"Problem Loading Courses :=> "+errc)
+         messages.error (request,"Problem Loading Courses /ConnectionError:=> "+ str(errc))
 
     except requests.exceptions.Timeout as timeout:
     # Maybe set up for a retry, or continue in a retry loop
-          messages.error(request,"Problem Loading Courses :=> "+ timeout)
+          messages.error(request,"Problem Loading Courses/Timeout :=> "+ str(timeout))
     
     except requests.exceptions.TooManyRedirects as manyredirect:
     # Tell the user their URL was bad and try a different one
-          messages.error(request,"Problem Loading Courses :=> "+ manyredirect)
+          messages.error(request,"Problem Loading Courses/TooManyRedirects :=> "+ str(manyredirect))
 
           
     except requests.exceptions.InvalidURL as requestexception:
     # catastrophic error. bail.
-          messages.error(request,"Problem Loading Courses :=> "+ requestexception)
+          messages.error(request,"Problem Loading Courses/InvalidURL :=> "+ str(requestexception))
     except requests.exceptions.RequestException as requestexception:
     # catastrophic error. bail.
-          messages.error(request,"Problem Loading Courses :=> "+ requestexception)
+          messages.error(request,"Problem Loading Courses/RequestException :=> "+ str(requestexception))
+    except MissingSchema:
+         print('URL is not complete')  
     except  Exception as inst:
           print(inst)
           messages.error(request,"Problem Loading Courses :=> "+ inst)

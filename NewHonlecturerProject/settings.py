@@ -55,8 +55,8 @@ environ.Env.read_env()
 DEBUG = env('DEBUG')
 print(DEBUG)
 print('DEBUG HAS BEEN PRINTED NOW......................')
-
-
+print(env('BASE_URLFull_Time'))
+print('env printed above')
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 #with open('LecturerAppConfig.json') as fh :
@@ -71,7 +71,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # = True
 
 #DEBUG = int(os.environ.get('DEBUG',default=1))
-ALLOWED_HOSTS = ['192.168.8.154','192.168.8.111','127.0.0.1']
+ALLOWED_HOSTS = ['192.168.8.154','192.168.0.111','192.168.8.111','127.0.0.1']
 #ALLOWED_HOSTS = []
 #ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 if DEBUG:
