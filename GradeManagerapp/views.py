@@ -32,6 +32,7 @@ def login_view(request):
     print(request.POST['serverprogtypeApi'])
     print("BASE_URL"+request.POST['serverprogtypeApi'])
     settings.BASE_URL=settings.CIPHER["BASE_URL"+request.POST['serverprogtypeApi']]
+    
     print(settings.BASE_URL)
     #print(request.POST['serverprogtypeApi'].value)
     form = UserLoginForm(request.POST) 
@@ -145,6 +146,11 @@ def displayCourse_view(request):
         orderbymatricno=False
         if orderbymatricnotemp=='on': 
             orderbymatricno=True
+        crsidtemp = request.POST.get('Selectedcourse','False')
+        print(crsidtemp)
+        if  crsidtemp== 'False':
+                      messages.error(request, "Please Go back , load and Select a Course ")
+                      return render (request,'GradeManagerapp/processcourses_view.html')
         crsid = request.POST['Selectedcourse']
         year = request.POST['year']
         month = request.POST['month']

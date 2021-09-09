@@ -71,9 +71,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # = True
 
 #DEBUG = int(os.environ.get('DEBUG',default=1))
-ALLOWED_HOSTS = ['192.168.8.154','192.168.0.111','192.168.8.111','127.0.0.1']
+#ALLOWED_HOSTS = ['192.168.8.154','192.168.0.111','192.168.8.111','127.0.0.1']
 #ALLOWED_HOSTS = []
-#ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+print(ALLOWED_HOSTS )
 if DEBUG:
     
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -130,21 +131,25 @@ WSGI_APPLICATION = 'NewHonlecturerProject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-# print(env("DBNAME"))
-# print(env("DBUSER"))
-# print(env("DBHOST"))
-# print(env("DBPASSWORD"))
-# print(env("DBPORT"))
+
+
+
+print(env("POSTGRES_DB"))
+print(env("POSTGRES_USER"))
+print(env("POSTGRES_HOST"))
+print(env("POSTGRES_PASSWORD"))
+print(env("DBPORT"))
+
 
 DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': BASE_DIR / 'db.sqlite3',
         #  'ENGINE': 'django.db.backends.postgresql',
-         'NAME':env("DBNAME"),
-         'USER':env("DBUSER"),
-         'PASSWORD': env("DBPASSWORD"),
-         'HOST': env("DBHOST"),
+         'NAME':env("POSTGRES_DB"),
+         'USER':env("POSTGRES_USER"),
+         'PASSWORD': env("POSTGRES_PASSWORD"),
+         'HOST': env("POSTGRES_HOST"),
          'PORT': env("DBPORT"),
          'ENGINE':'django.db.backends.postgresql',
          #'NAME':'HonLecturerDB',

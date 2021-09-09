@@ -1,10 +1,11 @@
 version: "3.9"
-  
+ 
 services:    
   nginx:
-    build: ./nginx
+    image: oladeji1/newhonlecturerproject_nginx:1.0
     ports:
       - 8087:80
+    restart: unless-stopped
       #if you go to nginx. conf you will see that it listen at :80
       #from nginx at port 80 the site  will be accessed outside on 127.0.0.1:8087
     volumes:
@@ -13,7 +14,7 @@ services:
       - web
 
   web:
-    build: .
+    image: oladeji1/newhonlecturerproject_web:1.5
     restart: unless-stopped
     command: sh -c 'python manage.py makemigrations &&
                      python manage.py migrate &&                  
@@ -31,7 +32,7 @@ services:
     #command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python3 NewHonlecturerProject/manage.py runserver 0.0.0.0:8084'
     #command: NewHonlecturerProject/gunicorn NewHonlecturerProject.wsgi.application - bind 0.0.0.0:8084
     volumes:
-      - .:/code
+      #- .:/code
       - staticfiles:/code/static
     #- ./NewHonlecturerProject:/code
     # environment:
@@ -39,7 +40,7 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - ./.env.dev
+      - ./.env.deploy
     depends_on: 
         - db
   db:
@@ -50,11 +51,11 @@ services:
     volumes:
       - NewHonlectpgdata:/var/lib/postgresql/data
       - NewHonlectpgconf:/usr/local/etc/postgres/postgres.conf
-
     environment:
       #- POSTGRES_DB=HonLecturerDB
       #- POSTGRES_USER=postgres
       #- POSTGRES_PASSWORD=Ranti
+      
       - POSTGRES_DB=H${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -63,4 +64,4 @@ volumes:
         NewHonlectpgdata:
         NewHonlectpgconf:
         staticfiles :
- 
+        
